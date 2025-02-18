@@ -1,0 +1,24 @@
+{
+  "originHash" : "c37aa08fb267c8643f825d14664abeb4114b3ae961663e4aed8f033e8e17f1aa",
+  "pins" : [
+    {
+      "identity" : "zerocorekit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zakywisnu/ZeroCoreKit.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "12fc77c17d5661e1fb6ea3e3f46094333c99c065"
+      }
+    },
+    {
+      "identity" : "zeronetwork",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/zakywisnu/ZeroNetwork.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "318a0f7ff568462d4734d7af3783df74d1fab643"
+      }
+    }
+  ],
+  "version" : 3
+}
