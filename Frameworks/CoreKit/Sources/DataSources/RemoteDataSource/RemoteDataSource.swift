@@ -10,29 +10,43 @@ import Foundation
 public struct NoContent: Codable, Equatable {}
 
 public protocol RemoteDataSource {
+    @discardableResult
     func get<ResponseBody>(
         _ endpoint: RemoteEndpoint,
         queries: [String: String]?,
         for type: ResponseBody.Type
     ) async throws -> ResponseBody where ResponseBody: Decodable
 
+    @discardableResult
     func post<RequestBody, ResponseBody>(
         _ endpoint: RemoteEndpoint,
         queries: [String: String]?,
+        headers: [String: String]?,
         body: RequestBody?,
         for type: ResponseBody.Type
     ) async throws -> ResponseBody? where ResponseBody: Decodable, RequestBody: Encodable
 
+    @discardableResult
     func delete<ResponseBody>(
         _ endpoint: RemoteEndpoint,
         for type: ResponseBody.Type
     ) async throws -> ResponseBody? where ResponseBody: Decodable
+    
+    @discardableResult
+    func patch<RequestBody, ResponseBody>(
+        _ endpoint: RemoteEndpoint,
+        queries: [String: String]?,
+        headers: [String: String]?,
+        body: RequestBody?,
+        for type: ResponseBody.Type
+    ) async throws -> ResponseBody? where ResponseBody: Decodable, RequestBody: Encodable
 
-//    func upload<ResponseBody>(
-//        _ endpoint: RemoteEndpoint,
-//        body: Data?,
-//        boundary: String,
-//        queries: [String: String]?,
-//        for type: ResponseBody.Type
-//    ) async throws -> ResponseBody where ResponseBody: Decodable
+    @discardableResult
+    func upload<ResponseBody>(
+        _ endpoint: RemoteEndpoint,
+        body: Data?,
+        boundary: String,
+        queries: [String: String]?,
+        for type: ResponseBody.Type
+    ) async throws -> ResponseBody where ResponseBody: Decodable
 }

@@ -25,11 +25,13 @@ func targets() -> [Target] {
         product: .app,
         destination: .iOS,
         dependencies: [
-            .project(target: "DomainKit", path: "../Frameworks/DomainKit/", status: .required, condition: nil)
+            .project(target: "ToDoSwiftUI", path: "../Frameworks/ToDoSwiftUI/", status: .required, condition: nil),
+            .project(target: "CoreKit", path: "../Frameworks/CoreKit/", status: .required, condition: nil),
+            .project(target: "DomainKit", path: "../Frameworks/DomainKit/", status: .required, condition: nil),
         ],
         infoPlist: infoPlist,
         resources: ["Resources/**"],
-        deploymentTargets: .iOS("16.0"),
+        deploymentTargets: .iOS("18.0"),
         withUnitTest: true
     )
     return target

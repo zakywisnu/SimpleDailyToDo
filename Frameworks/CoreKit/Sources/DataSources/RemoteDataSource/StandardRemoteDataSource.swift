@@ -19,6 +19,7 @@ public class StandardRemoteDataSource {
 }
 
 extension StandardRemoteDataSource: RemoteDataSource {
+    @discardableResult
     public func get<ResponseBody>(
         _ endpoint: any RemoteEndpoint,
         queries: [String : String]?,
@@ -33,21 +34,25 @@ extension StandardRemoteDataSource: RemoteDataSource {
         )
     }
     
+    @discardableResult
     public func post<RequestBody, ResponseBody>(
         _ endpoint: any RemoteEndpoint,
         queries: [String : String]?,
+        headers: [String: String]?,
         body: RequestBody?,
         for type: ResponseBody.Type
-    ) async throws -> ResponseBody? where RequestBody : Encodable, ResponseBody : Decodable {
-        try await executeRequest(
+    ) async throws -> ResponseBody? where ResponseBody : Decodable, RequestBody: Encodable {
+        try await executeRequestWithOptional(
             endpoint,
             queries: queries,
             requestBody: body.encoded(),
+            headers: headers,
             method: .post,
             for: type
         )
     }
     
+    @discardableResult
     public func delete<ResponseBody>(
         _ endpoint: any RemoteEndpoint,
         for type: ResponseBody.Type
@@ -61,15 +66,41 @@ extension StandardRemoteDataSource: RemoteDataSource {
         )
     }
     
-//    public func upload<ResponseBody>(
-//        _ endpoint: any RemoteEndpoint,
-//        body: Data?,
-//        boundary: String,
-//        queries: [String : String]?,
-//        for type: ResponseBody.Type
-//    ) async throws -> ResponseBody where ResponseBody : Decodable {
-//        <#code#>
-//    }
+    @discardableResult
+    public func upload<ResponseBody>(
+        _ endpoint: any RemoteEndpoint,
+        body: Data?,
+        boundary: String,
+        queries: [String : String]?,
+        for type: ResponseBody.Type
+    ) async throws -> ResponseBody where ResponseBody : Decodable {
+        try await executeRequest(
+            endpoint,
+            queries: queries,
+            requestBody: body,
+            method: .post,
+            contentType: "multipart/form-data; boundary=\(boundary)",
+            for: type
+        )
+    }
+    
+    @discardableResult
+    public func patch<RequestBody, ResponseBody>(
+        _ endpoint: any RemoteEndpoint,
+        queries: [String : String]?,
+        headers: [String : String]?,
+        body: RequestBody?,
+        for type: ResponseBody.Type
+    ) async throws -> ResponseBody? where RequestBody : Encodable, ResponseBody : Decodable {
+        try await executeRequestWithOptional(
+            endpoint,
+            queries: queries,
+            requestBody: body.encoded(),
+            headers: headers,
+            method: .patch,
+            for: type
+        )
+    }
 }
 
 extension StandardRemoteDataSource {
@@ -77,6 +108,7 @@ extension StandardRemoteDataSource {
         _ endpoint: RemoteEndpoint,
         queries: [String: String]?,
         requestBody: Data?,
+        headers: [String: String]? = nil,
         method: HTTPMethod,
         contentType: String = "application/json",
         for _: ResponseBody.Type
@@ -86,15 +118,51 @@ extension StandardRemoteDataSource {
             with: url,
             method: method.rawValue,
             requestBody: requestBody,
-            contentType: contentType
+            contentType: contentType,
+            headers: headers
         )
 
         do {
-            let (responseBody, response) = try await httpClient
-                .executeWithJSONDecoding(request, for: ResponseBody.self)
+            let (responseBody, _) = try await httpClient
+                .executeWithJSONDecoding(request, for: ResponseWrapper<ResponseBody>.self)
                 .get()
 
-            return responseBody
+            guard let response = responseBody.data else {
+                throw APIError.apiError(status: -999, body: String("failed to decode").data(using: .utf8))
+            }
+            return response
+        } catch let error as HTTPError {
+            let apiError = error.toDomainEntity()
+            throw apiError
+        } catch {
+            throw APIError.networkError(.init(.unknown))
+        }
+    }
+    
+    private func executeRequestWithOptional<ResponseBody: Decodable>(
+        _ endpoint: RemoteEndpoint,
+        queries: [String: String]?,
+        requestBody: Data?,
+        headers: [String: String]? = nil,
+        method: HTTPMethod,
+        contentType: String = "application/json",
+        for _: ResponseBody.Type
+    ) async throws -> ResponseBody? {
+        let url = try makeURL(with: endpoint.path, queries: queries)
+        let request = await makeRequest(
+            with: url,
+            method: method.rawValue,
+            requestBody: requestBody,
+            contentType: contentType,
+            headers: headers
+        )
+
+        do {
+            let result = try await httpClient
+                .executeWithJSONDecoding(request, for: ResponseWrapper<ResponseBody>.self)
+                .get()
+            
+            return result.0.data
         } catch let error as HTTPError {
             let apiError = error.toDomainEntity()
             throw apiError
@@ -110,9 +178,7 @@ extension StandardRemoteDataSource {
         var urlComponent = URLComponents()
         urlComponent.scheme = configuration.scheme
         urlComponent.host = configuration.domain
-        guard let baseURL = urlComponent.url else {
-            throw APIError.networkError(.init(.badURL))
-        }
+        let baseURL = URL(string: "\(configuration.scheme)://\(configuration.domain)")!
         var url = baseURL.appendingPathComponent(endPoint)
         if let queries = queries, !queries.isEmpty {
             let queryString = queries.map {
@@ -127,22 +193,43 @@ extension StandardRemoteDataSource {
         with url: URL,
         method: String,
         requestBody: Data?,
-        contentType: String = "application/json"
+        contentType: String = "application/json",
+        headers: [String: String]? = nil
     ) async -> URLRequest {
         var request = URLRequest(url: url)
         request.httpMethod = method
         request.httpBody = requestBody
         request.addValue(contentType, forHTTPHeaderField: "Content-Type")
+        if let headers = headers {
+            headers.forEach {
+                if $0.key == "login_credentials" {
+                    let result = makeBasicAuthHeaders(credentials: $0.value)
+                    request.setValue(result, forHTTPHeaderField: "Authorization")
+                } else {
+                    request.addValue($0.value, forHTTPHeaderField: $0.key)
+                }
+            }
+        }
+        
+        if let auth: String = UserDefaultsDataSource.current.get(forKey: "accessToken"), !auth.isEmpty {
+            request.setValue("Bearer \(auth)", forHTTPHeaderField: "Authorization")
+        }
         return request
+    }
+    
+    private func makeBasicAuthHeaders(credentials: String) -> String {
+        guard let credentialsData = credentials.data(using: .utf8) else {
+            return ""
+        }
+        let base64Credentials = credentialsData.base64EncodedString()
+        return "Basic \(base64Credentials)"
     }
 }
 
-private extension Encodable {
+public extension Encodable {
     func encoded() -> Data? {
         let encoder = JSONEncoder()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        encoder.dateEncodingStrategy = .formatted(dateFormatter)
+        encoder.dateEncodingStrategy = .iso8601
         return try? encoder.encode(self)
     }
 }

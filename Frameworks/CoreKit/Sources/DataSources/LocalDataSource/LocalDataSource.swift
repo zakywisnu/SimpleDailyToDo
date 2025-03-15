@@ -7,18 +7,17 @@
 
 import Foundation
 
-protocol LocalDataSource {
-    associatedtype DataType: Codable
+public protocol LocalDataSource {
     
     /// Fetches the stored data.
     /// - Returns: The stored data if available, otherwise nil.
-    func get(forKey key: String) -> DataType?
+    func get<T: Codable>(forKey key: String) -> T?
     
     /// Updates or stores new data.
     /// - Parameters:
     ///   - data: The data to store.
     ///   - key: The key under which the data should be stored.
-    func update(_ data: DataType, forKey key: String) throws
+    func update<T: Codable>(_ data: T, forKey key: String) throws
     
     /// Deletes the data for a given key.
     /// - Parameter key: The key of the data to delete.

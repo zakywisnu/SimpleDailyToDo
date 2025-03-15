@@ -9,9 +9,8 @@ func targets() -> [Target] {
         destination: [.iPhone, .mac],
         dependencies: [
             .project(target: "CoreKit", path: "../CoreKit/", status: .none, condition: nil),
-            .external(name: "ZeroCoreKit", condition: nil)
         ],
-        deploymentTargets: .multiplatform(iOS: "16.0", macOS: "13.6"),
+        deploymentTargets: .multiplatform(iOS: "18.0", macOS: "13.6"),
         withUnitTest: true
     )
     return target
