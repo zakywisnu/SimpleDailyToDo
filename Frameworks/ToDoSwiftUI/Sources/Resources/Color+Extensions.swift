@@ -8,16 +8,16 @@
 import SwiftUI
 
 extension Color {
-    static let primary = ToDoSwiftUIAsset.primary.swiftUIColor
-    static let backgroundPrimary = ToDoSwiftUIAsset.backgroundPrimary.swiftUIColor
-    static let blueCardBackground = ToDoSwiftUIAsset.blueCardBackground.swiftUIColor
-    static let cardBackground = ToDoSwiftUIAsset.cardBackground.swiftUIColor
-    static let linkColor = ToDoSwiftUIAsset.linkColor.swiftUIColor
-    static let pinkCardBackground = ToDoSwiftUIAsset.pinkCardBackground.swiftUIColor
-    static let yellowCardBackground = ToDoSwiftUIAsset.yellowCardBackground.swiftUIColor
-    static let progressBlue = ToDoSwiftUIAsset.progressBlue.swiftUIColor
-    static let progressPink = ToDoSwiftUIAsset.progressPink.swiftUIColor
-    static let taskComplete = ToDoSwiftUIAsset.taskComplete.swiftUIColor
-    static let textPrimary = ToDoSwiftUIAsset.textPrimary.swiftUIColor
-    static let textSecondary = ToDoSwiftUIAsset.textSecondary.swiftUIColor
+    static let primary = ToDoSwiftUIAsset.Colors.primary.swiftUIColor
+    static let backgroundPrimary = ToDoSwiftUIAsset.Colors.backgroundPrimary.swiftUIColor
+    static let blueCardBackground = ToDoSwiftUIAsset.Colors.blueCardBackground.swiftUIColor
+    static let cardBackground = ToDoSwiftUIAsset.Colors.cardBackground.swiftUIColor
+    static let linkColor = ToDoSwiftUIAsset.Colors.linkColor.swiftUIColor
+    static let pinkCardBackground = ToDoSwiftUIAsset.Colors.pinkCardBackground.swiftUIColor
+    static let yellowCardBackground = ToDoSwiftUIAsset.Colors.yellowCardBackground.swiftUIColor
+    static let progressBlue = ToDoSwiftUIAsset.Colors.progressBlue.swiftUIColor
+    static let progressPink = ToDoSwiftUIAsset.Colors.progressPink.swiftUIColor
+    static let taskComplete = ToDoSwiftUIAsset.Colors.taskComplete.swiftUIColor
+    static let textPrimary = ToDoSwiftUIAsset.Colors.textPrimary.swiftUIColor
+    static let textSecondary = ToDoSwiftUIAsset.Colors.textSecondary.swiftUIColor
 }

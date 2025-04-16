@@ -8,7 +8,7 @@ func targets() -> [Target] {
         product: .framework,
         destination: [.iPhone, .mac],
         dependencies: [
-            .project(target: "CoreKit", path: "../CoreKit/", status: .none, condition: nil),
+            .project(target: "CoreKit", path: "../CoreKit", status: .required, condition: nil),
         ],
         deploymentTargets: .multiplatform(iOS: "18.0", macOS: "13.6"),
         withUnitTest: true

@@ -85,7 +85,7 @@ struct FloatingTextField: View {
                     .padding(.vertical, 8)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(ToDoSwiftUIAsset.primary.swiftUIColor, lineWidth: 1)
+                            .stroke(ToDoSwiftUIAsset.Colors.primary.swiftUIColor, lineWidth: 1)
                     )
                 default:
                     TextField(
@@ -100,7 +100,7 @@ struct FloatingTextField: View {
                     .padding(.vertical, 8)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(ToDoSwiftUIAsset.primary.swiftUIColor, lineWidth: 1)
+                            .stroke(ToDoSwiftUIAsset.Colors.primary.swiftUIColor, lineWidth: 1)
                     )
                 }
             }

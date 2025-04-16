@@ -14,6 +14,7 @@ extension Target {
         destination: Destinations,
         dependencies: [TargetDependency] = [],
         infoPlist: [String: Plist.Value] = [:],
+        sources: SourceFilesList = ["Sources/**"],
         resources: ResourceFileElements? = nil,
         deploymentTargets: DeploymentTargets? = nil,
         withUnitTest: Bool = true
@@ -24,6 +25,7 @@ extension Target {
             destination: destination,
             dependencies: dependencies,
             infoPlist: infoPlist,
+            sources: sources,
             resources: resources,
             deploymentTargets: deploymentTargets,
             withUnitTest: withUnitTest
@@ -36,19 +38,21 @@ extension Target {
         destination: Destinations,
         dependencies: [TargetDependency] = [],
         infoPlist: [String: Plist.Value] = [:],
+        sources: SourceFilesList = [],
         resources: ResourceFileElements? = nil,
         deploymentTargets: DeploymentTargets? = nil,
         withUnitTest: Bool = true
     ) -> [Target] {
         var projects: [Target] = []
+        let bundleId = product == .appExtension ? "com.zeroemotion.SimpleDailyToDo.\(name)" : "com.zeroemotion.\(name)"
         let mainTarget: Target = .target(
             name: name,
             destinations: destination,
             product: product,
-            bundleId: "com.zeroemotion.\(name)",
+            bundleId: bundleId,
             deploymentTargets: deploymentTargets,
             infoPlist: .extendingDefault(with: infoPlist),
-            sources: ["Sources/**"],
+            sources: sources,
             resources: resources,
             dependencies: dependencies
         )
