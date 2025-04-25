@@ -24,7 +24,7 @@ struct UserProfileView: View {
             HStack {
                 Image(systemName: "x.circle")
                     .resizable()
-                    .foregroundStyle(Color.primary)
+                    .foregroundStyle(Color.primaryColor)
                     .frame(width: 32, height: 32)
                     .onTapGesture {
                         dismiss.callAsFunction()
@@ -34,7 +34,7 @@ struct UserProfileView: View {
                 
                 Text("Edit")
                     .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(Color.primary)
+                    .foregroundStyle(Color.primaryColor)
                     .onTapGesture {
                         viewModel.send(.didTapEditProfile)
                     }
@@ -56,6 +56,21 @@ struct UserProfileView: View {
                 .frame(height: 175)
                 .offset(y: -100)
             }
+            
+            Section {
+                Toggle("Enable Live Activity", isOn: Binding(get: {
+                    viewModel.state.isEnableLiveActivity
+                }, set: { newValue in
+                    viewModel.send(.didUpdateLiveActivity)
+                }))
+                .padding(16)
+                .background(
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(Color.primaryColor.gradient)
+                )
+            }
+            .offset(y: -50)
+            .padding(.horizontal, 16)
             
             Spacer()
             

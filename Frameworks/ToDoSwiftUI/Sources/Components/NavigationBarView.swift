@@ -24,7 +24,7 @@ struct NavigationBarView<Content: View>: View {
         HStack(spacing: 16) {
             Image(systemName: "x.circle")
                 .resizable()
-                .foregroundStyle(Color.primary)
+                .foregroundStyle(Color.primaryColor)
                 .frame(width: 32, height: 32)
                 .onTapGesture {
                     dismiss.callAsFunction()

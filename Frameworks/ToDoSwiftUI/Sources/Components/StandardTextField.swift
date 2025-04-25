@@ -34,7 +34,7 @@ struct StandardTextField: View {
                 .textFieldStyle(
                     OutlinedTextFieldStyle(
                         cornerRadius: 8,
-                        strokeColor: Color.primary,
+                        strokeColor: Color.primaryColor,
                         strokeWidth: 2
                     )
                 )

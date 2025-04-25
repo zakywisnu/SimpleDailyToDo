@@ -8,10 +8,10 @@
 import Foundation
 import DomainKit
 
-struct CategoryModel: Identifiable, Hashable {
-    var id: UUID
-    let name: String
-    let color: String
+public struct CategoryModel: Identifiable, Hashable {
+    public var id: UUID
+    public let name: String
+    public let color: String
 }
 
 extension CategoryModel {

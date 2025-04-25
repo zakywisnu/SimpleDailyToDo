@@ -44,7 +44,7 @@ struct ChooseDateView: View {
         .background(
             RoundedRectangle(cornerRadius: 16)
                 .fill(Color.clear)
-                .stroke(Color.primary, style: .init(lineWidth: 2))
+                .stroke(Color.primaryColor, style: .init(lineWidth: 2))
         )
         .sheet(isPresented: $isDatePickerPresented) {
             DatePickerView(selectedDate: $selectedDate, dateRange: dateRange, displayedComponents: displayedComponents)
@@ -67,7 +67,7 @@ struct DatePickerView: View {
                 Text("Done")
                     .font(.headline)
                     .fontWeight(.bold)
-                    .foregroundStyle(Color.primary)
+                    .foregroundStyle(Color.primaryColor)
                     .onTapGesture {
                         dismiss()
                     }

@@ -25,7 +25,7 @@ struct SplashScreenView: View {
                 // Title text with animation
                 Text("Daily ToDo")
                     .font(.system(size: 42, weight: .bold))
-                    .foregroundColor(.primary)
+                    .foregroundColor(.primaryColor)
                     .opacity(titleOpacity)
                 
                 // Subtitle text with animation

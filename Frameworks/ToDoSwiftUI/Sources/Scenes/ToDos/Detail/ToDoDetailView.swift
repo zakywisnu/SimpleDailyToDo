@@ -104,8 +104,10 @@ struct ToDoDetailView: View {
             }
             .padding(16)
             
-            tags
-                .padding(.horizontal, 16)
+            if !viewModel.state.task.tags.filter({ $0 != "" }).isEmpty {
+                tags
+                    .padding(.horizontal, 16)
+            }
             
             HStack {
                 time
@@ -140,7 +142,7 @@ struct ToDoDetailView: View {
     private var icon: some View {
         viewModel.state.task.todoCategory.image
             .resizable()
-            .foregroundStyle(Color.primary)
+            .foregroundStyle(Color.primaryColor)
             .frame(width: 24, height: 24)
     }
     
@@ -162,7 +164,7 @@ struct ToDoDetailView: View {
             Image(systemName: "clock")
                 .resizable()
                 .frame(width: 24, height: 24)
-                .foregroundStyle(Color.primary)
+                .foregroundStyle(Color.primaryColor)
             
             Text(viewModel.state.task.timeRange)
                 .font(.subheadline)

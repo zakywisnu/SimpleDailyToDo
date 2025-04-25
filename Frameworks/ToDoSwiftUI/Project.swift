@@ -8,7 +8,7 @@ func targets() -> [Target] {
         product: .framework,
         destination: [.iPhone, .mac],
         dependencies: [
-            .project(target: "DomainKit", path: "../DomainKit/", status: .none, condition: nil),
+            .project(target: "DomainKit", path: "../DomainKit", status: .required, condition: nil),
         ],
         resources: ["Resources/**"],
         deploymentTargets: .multiplatform(iOS: "18.0", macOS: "13.6"),

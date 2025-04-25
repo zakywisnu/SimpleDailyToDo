@@ -40,7 +40,7 @@ public struct LoadingButtonView<Content: View>: View {
             }
             .background(
                 RoundedRectangle(cornerRadius: 22)
-                    .fill(Color.primary)
+                    .fill(Color.primaryColor)
                     .frame(width: isLoading ? 44 : width , height: 44)
             )
         }
@@ -67,8 +67,8 @@ public struct CircleLoadingBar: View {
     @State private var isLoading: Bool = false
     private var height: CGFloat = 44
     private var width: CGFloat = 44
-    private var backgroundColor: Color = Color.primary
-    private var loadingBackgroundColor: Color = Color.primary
+    private var backgroundColor: Color = Color.primaryColor
+    private var loadingBackgroundColor: Color = Color.primaryColor
     private var strokeColor: Color = Color.black
     private var progress: Double = 0.7
     private var strokeStyle: StrokeStyle = StrokeStyle(lineWidth: 3, lineCap: .round, lineJoin: .round)
@@ -90,8 +90,8 @@ public struct LoadingButtonStyle {
     public var width: CGFloat = .infinity
     public var height: CGFloat = 44
     public var cornerRadius: CGFloat = 22
-    public var backgroundColor: Color = Color.primary
-    public var loadingBackgroundColor: Color = Color.primary
+    public var backgroundColor: Color = Color.primaryColor
+    public var loadingBackgroundColor: Color = Color.primaryColor
     public var strokeWidth: CGFloat = 0
     public var strokeColor = Color.black
     
@@ -99,8 +99,8 @@ public struct LoadingButtonStyle {
         width: CGFloat = .infinity,
         height: CGFloat = 44,
         cornerRadius: CGFloat = 22,
-        backgroundColor: Color = Color.primary,
-        loadingBackgroundColor: Color = Color.primary,
+        backgroundColor: Color = Color.primaryColor,
+        loadingBackgroundColor: Color = Color.primaryColor,
         strokeWidth: CGFloat = 0,
         strokeColor: Color = Color.black
     ) {

@@ -54,12 +54,12 @@ struct EditCreateToDoView: View {
             categoryWithTitle
             
             TextField("Description", text: $viewModel.state.todoDescription)
-                .textFieldStyle(OutlinedTextFieldStyle(strokeColor: Color.primary))
+                .textFieldStyle(OutlinedTextFieldStyle(strokeColor: Color.primaryColor))
             
             dates
             
             TextField("Tags (Use comma for multiple tags)", text: $viewModel.state.tags)
-                .textFieldStyle(OutlinedTextFieldStyle(strokeColor: Color.primary))
+                .textFieldStyle(OutlinedTextFieldStyle(strokeColor: Color.primaryColor))
         }
     }
     
@@ -94,10 +94,10 @@ struct EditCreateToDoView: View {
             viewModel.getImageCategory()
                 .resizable()
                 .frame(width: 32, height: 32)
-                .foregroundStyle(Color.primary)
+                .foregroundStyle(Color.primaryColor)
                 .background(
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.primary, style: .init(lineWidth: 2))
+                        .stroke(Color.primaryColor, style: .init(lineWidth: 2))
                         .fill(Color.clear)
                         .frame(width: 54, height: 54)
                 )
@@ -115,7 +115,7 @@ struct EditCreateToDoView: View {
                 }
             
             TextField("Title", text: $viewModel.state.todoTitle)
-                .textFieldStyle(OutlinedTextFieldStyle(strokeColor: Color.primary))
+                .textFieldStyle(OutlinedTextFieldStyle(strokeColor: Color.primaryColor))
         }
     }
 }

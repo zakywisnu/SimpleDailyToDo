@@ -52,7 +52,7 @@ struct RegisterView: View {
             .frame(height: 44)
             .background(
                 RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.primary)
+                    .fill(Color.primaryColor)
             )
             
         }

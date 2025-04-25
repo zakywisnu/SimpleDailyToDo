@@ -30,7 +30,7 @@ struct DeleteToDoSheet: View {
             
             Text("Are you sure you want to delete this ToDo?")
                 .font(.headline)
-                .foregroundColor(Color.primary)
+                .foregroundColor(Color.primaryColor)
             
             HStack(spacing: 24) {
                 PrimaryButton(
