@@ -13,6 +13,9 @@ final class UserProfileViewModel: ObservableObject {
     
     private let profileUseCase: GetProfileUseCase = StandardGetProfileUseCase()
     private let logoutUseCase: LogoutUseCase = StandardLogoutUseCase()
+    private let getLiveActivityUseCase: GetAutoLiveActivityStatusUseCase = StandardGetAutoLiveActivityStatusUseCase()
+    private let updateLiveActivityUseCase: UpdateAutoLiveActivityStatusUseCase = StandardUpdateAutoLiveActivityStatusUseCase()
+    private let getToDoListUseCase: GetToDoListUseCase = StandardGetToDoListUseCase()
     
     private var router: StandardSwiftUIRouter?
     
@@ -26,6 +29,7 @@ final class UserProfileViewModel: ObservableObject {
             state.isLoading = true
             Task {
                 await getProfile()
+                await checkAutoLiveActivity()
             }
         case .didTapLogout:
             state.isShowLogoutSheet.toggle()
@@ -40,6 +44,10 @@ final class UserProfileViewModel: ObservableObject {
         case .didSuccessUpdateProfile:
             state.toast = Toast(message: "Successfully Update Profile", style: .success)
             send(.didLoad)
+        case .didUpdateLiveActivity:
+            Task {
+                await updateAutoLiveActivity()
+            }
         }
     }
     
@@ -70,9 +78,40 @@ extension UserProfileViewModel {
             let isSucceed = try await logoutUseCase.execute()
             if isSucceed {
                 router?.setRoot(to: .auth(.login))
+                LiveActivityManager.endLiveActivity()
             }
         } catch {
             print("failed to logout: ", error)
+        }
+    }
+    
+    @MainActor
+    private func checkAutoLiveActivity() async {
+        let status = getLiveActivityUseCase.execute()
+        if status {
+            do {
+                let todos = try await getToDoListUseCase.execute().toModels()
+                let getTodayTodos = todos.filter { $0.startDateInDate!.isInSameDay(Date()) }
+                LiveActivityManager.startLiveActivity(for: state.profile.fullName, with: getTodayTodos)
+                state.isEnableLiveActivity = status
+            } catch {
+                print("Failed to load todos")
+            }
+        }
+        
+    }
+    
+    @MainActor
+    private func updateAutoLiveActivity() async {
+        do {
+            try updateLiveActivityUseCase.execute(isEnabled: !state.isEnableLiveActivity)
+            state.isEnableLiveActivity.toggle()
+            if !state.isEnableLiveActivity {
+                LiveActivityManager.endLiveActivity()
+            }
+            await checkAutoLiveActivity()
+        } catch {
+            print("Failed to update live activity status")
         }
     }
 }
@@ -85,6 +124,7 @@ extension UserProfileViewModel {
         var shouldUpdateProfile: Bool = true
         var toast: Toast?
         var isLoading: Bool = false
+        var isEnableLiveActivity: Bool = false
     }
     
     enum Action {
@@ -93,5 +133,6 @@ extension UserProfileViewModel {
         case didLogout
         case didTapEditProfile
         case didSuccessUpdateProfile
+        case didUpdateLiveActivity
     }
 }

@@ -15,6 +15,10 @@ public struct ProfileModel: Hashable {
     public var email: String
     public let userImage: String
     
+    public var fullName: String {
+        return "\(firstName) \(lastName)"
+    }
+    
     public static var empty: ProfileModel {
         return ProfileModel(
             id: "",
@@ -37,7 +41,7 @@ public struct ProfileModel: Hashable {
 }
 
 extension ProfileResponseModel {
-    public func toModel() -> ProfileModel {
+    func toModel() -> ProfileModel {
         return ProfileModel(
             id: id ?? "",
             firstName: firstName ?? "",

@@ -6,22 +6,35 @@
 //
 
 import ActivityKit
+
 import SwiftUI
 
 public struct DailyToDoActivityAttributes: ActivityAttributes {
-    public typealias TimerStatus = ContentState
+    public typealias ToDoActivities = ContentState
+    public var userName: String
     
     public struct ContentState: Codable, Hashable {
-        public var endTime: Date
+        public var remainingTasks: Int
+        public var currentTask: String?
+        public var currentTaskDescription: String?
+        public var currentTaskCategory: ToDoCategory
         
-        public init(endTime: Date) {
-            self.endTime = endTime
+        public init(
+            remainingTasks: Int,
+            currentTask: String? = nil,
+            currentTaskDescription: String? = nil,
+            currentTaskCategory: ToDoCategory
+        ) {
+            self.remainingTasks = remainingTasks
+            self.currentTask = currentTask
+            self.currentTaskDescription = currentTaskDescription
+            self.currentTaskCategory = currentTaskCategory
         }
     }
     
-    public init(timerName: String) {
-        self.timerName = timerName
+    public init(userName: String) {
+        self.userName = userName
     }
     
-    public var timerName: String
+    
 }

@@ -19,19 +19,19 @@ struct ChooseCategorySheet: View {
                     category.image
                         .resizable()
                         .frame(width: 32, height: 32)
-                        .foregroundStyle(Color.primary)
+                        .foregroundStyle(Color.primaryColor)
                     
                     Text(category.rawValue.capitalized)
                         .font(.title3)
                         .fontWeight(.semibold)
-                        .foregroundStyle(Color.primary)
+                        .foregroundStyle(Color.primaryColor)
                 }
                 .padding()
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(
                     RoundedRectangle(cornerRadius: 16)
                         .fill(Color.cardBackground)
-                        .stroke(Color.primary, style: .init(lineWidth: 2))
+                        .stroke(Color.primaryColor, style: .init(lineWidth: 2))
                         .shadow(color: Color.black.opacity(0.16), radius: 2, x: 3, y: 3)
                 )
                 .padding(.horizontal, 16)

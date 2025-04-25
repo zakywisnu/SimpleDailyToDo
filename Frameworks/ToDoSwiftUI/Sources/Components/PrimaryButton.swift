@@ -42,7 +42,7 @@ extension PrimaryButton.Style {
     var backgroundColor: Color {
         switch self {
         case .default:
-            return Color.primary
+            return Color.primaryColor
         case .warning:
             return Color.red
         case .secondary:

@@ -22,7 +22,7 @@ struct LogoutSheet: View {
             
             Text("Are you sure you want to logout?")
                 .font(.headline)
-                .foregroundColor(Color.primary)
+                .foregroundColor(Color.primaryColor)
             
             HStack(spacing: 24) {
                 PrimaryButton(

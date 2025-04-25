@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-extension Color {
-    static let primary = ToDoSwiftUIAsset.Colors.primary.swiftUIColor
+public extension Color {
+    static let primaryColor = ToDoSwiftUIAsset.Colors.primary.swiftUIColor
     static let backgroundPrimary = ToDoSwiftUIAsset.Colors.backgroundPrimary.swiftUIColor
     static let blueCardBackground = ToDoSwiftUIAsset.Colors.blueCardBackground.swiftUIColor
     static let cardBackground = ToDoSwiftUIAsset.Colors.cardBackground.swiftUIColor

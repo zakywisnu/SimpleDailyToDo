@@ -16,6 +16,7 @@ public final class HomeViewModel: ObservableObject {
     private let profileUseCase: GetProfileUseCase = StandardGetProfileUseCase()
     private let getToDoListUseCase: GetToDoListUseCase = StandardGetToDoListUseCase()
     private let updateToDoUseCase: UpdateToDoUseCase = StandardUpdateToDoUseCase()
+    private let getLiveActivityUseCase: GetAutoLiveActivityStatusUseCase = StandardGetAutoLiveActivityStatusUseCase()
     
     init() {
         self.state = State()
@@ -38,6 +39,7 @@ public final class HomeViewModel: ObservableObject {
         case .didLoadToDos:
             Task {
                 await getToDos()
+                await checkAutoLiveActivity()
             }
         case let .didUpdateCurrentShownWeek(week):
             state.currentWeek = week
@@ -64,12 +66,11 @@ public final class HomeViewModel: ObservableObject {
 }
 
 extension HomeViewModel {
-    
     @MainActor
     private func getProfile() async {
         do {
             let profile = try await profileUseCase.execute()
-            print("profile: ", profile)
+            state.profile = profile.toModel()
             state.viewState = .loaded
         } catch {
             print("error profile: ", error)
@@ -120,6 +121,16 @@ extension HomeViewModel {
             }
         }
     }
+    
+    @MainActor
+    private func checkAutoLiveActivity() {
+        let status = getLiveActivityUseCase.execute()
+        if status && !LiveActivityManager.isLiveActivityActive() {
+            LiveActivityManager.startLiveActivity(for: state.profile.fullName, with: state.getTodaysToDos)
+        } else if status {
+            LiveActivityManager.updateLiveActivity(with: state.getTodaysToDos)
+        }
+    }
 }
 
 extension HomeViewModel {
@@ -132,6 +143,10 @@ extension HomeViewModel {
         var isShowCreateToDoSheet: Bool = false
         var toast: Toast?
         var currentWeek: Week?
+        var profile: ProfileModel = .empty
+        var getTodaysToDos: [ToDoModel] {
+            return todos.filter { $0.startDateInDate!.isInSameDay(Date()) }
+        }
         var currentWeeksToDo: [ToDoModel] {
             get {
                 guard let currentWeek = currentWeek,

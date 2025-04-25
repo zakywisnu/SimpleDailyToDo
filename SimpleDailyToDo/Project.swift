@@ -15,7 +15,8 @@ let infoPlist: [String: Plist.Value] = [
     ],
     "UILaunchStoryboardName": "LaunchScreen",
     "CFBundleShortVersionString": "1.0",
-    "CFBundleVersion": "1"
+    "CFBundleVersion": "1",
+    "NSSupportsLiveActivities": true
 ]
 
 func targets() -> [Target] {

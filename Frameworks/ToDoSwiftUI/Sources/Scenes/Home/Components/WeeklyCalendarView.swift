@@ -31,7 +31,7 @@ struct WeeklyCalendarView: View {
             HStack(spacing: 0) {
                 Image(systemName: "chevron.left")
                     .padding(.leading, 12)
-                    .foregroundStyle(Color.primary)
+                    .foregroundStyle(Color.primaryColor)
                     .onTapGesture {
                         withAnimation(.easeOut(duration: 0.3)) {
                             viewModel.state.currentIndex -= 1
@@ -49,7 +49,7 @@ struct WeeklyCalendarView: View {
                 
                 Image(systemName: "chevron.right")
                     .padding(.trailing, 16)
-                    .foregroundStyle(Color.primary)
+                    .foregroundStyle(Color.primaryColor)
                     .onTapGesture {
                         withAnimation(.easeOut(duration: 0.3)) {
                             viewModel.state.currentIndex += 1
@@ -121,15 +121,15 @@ private struct DayView: View {
                 .font(.system(size: 20, weight: .medium))
                 .background(
                     Circle()
-                        .fill(isSelected ? Color.primary : Color.clear)
+                        .fill(isSelected ? Color.primaryColor : Color.clear)
                         .frame(width: 32, height: 32)
                 )
-                .foregroundColor(isSelected ? .white : .primary)
+                .foregroundColor(isSelected ? .white : .primaryColor)
                 .padding(.bottom, 4)
             
             if let isTasksExiste {
                 Circle()
-                    .fill(isTasksExiste ? Color.primary : Color.clear)
+                    .fill(isTasksExiste ? Color.primaryColor : Color.clear)
                     .frame(width: 6, height: 6)
             }
             

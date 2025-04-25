@@ -38,7 +38,7 @@ struct LoginView: View {
                         .foregroundStyle(Color.textPrimary)
                     Text("Register now.")
                         .font(.footnote)
-                        .foregroundStyle(Color.primary)
+                        .foregroundStyle(Color.primaryColor)
                         .onTapGesture {
                             viewModel.send(.didTapRegister)
                         }

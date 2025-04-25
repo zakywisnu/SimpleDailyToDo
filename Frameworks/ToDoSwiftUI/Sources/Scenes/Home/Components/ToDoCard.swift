@@ -31,8 +31,10 @@ extension HomeView {
                 }
                 .padding(16)
                 
-                tags
-                    .padding(.horizontal, 16)
+                if !task.tags.filter({ $0 != "" }).isEmpty {
+                    tags
+                        .padding(.horizontal, 16)
+                }
                 
                 HStack {
                     time
@@ -67,7 +69,7 @@ extension HomeView {
         private var icon: some View {
             task.todoCategory.image
                 .resizable()
-                .foregroundStyle(Color.primary)
+                .foregroundStyle(Color.primaryColor)
                 .frame(width: 24, height: 24)
         }
         
@@ -89,7 +91,7 @@ extension HomeView {
                 Image(systemName: "clock")
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundStyle(Color.primary)
+                    .foregroundStyle(Color.primaryColor)
                 
                 Text(task.timeRange)
                     .font(.subheadline)
@@ -124,12 +126,12 @@ extension HomeView {
     }
 }
 
-enum ToDoCategory: String, Hashable {
+public enum ToDoCategory: String, Hashable, Codable {
     case works = "Works"
     case learn = "Learn"
     case exercise = "Exercise"
     
-    var cardColor: Color {
+    public var cardColor: Color {
         switch self {
         case .works:
             return Color.blueCardBackground
@@ -140,7 +142,7 @@ enum ToDoCategory: String, Hashable {
         }
     }
     
-    var image: Image {
+    public var image: Image {
         switch self {
         case .exercise:
             return Image.exercise

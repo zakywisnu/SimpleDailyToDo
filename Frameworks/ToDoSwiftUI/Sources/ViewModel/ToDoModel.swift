@@ -8,19 +8,19 @@
 import Foundation
 import DomainKit
 
-struct ToDoModel: Hashable {
-    let todoId: String
-    let title: String
-    let description: String
-    var status: StatusModel
-    let tags: [String]
-    let icon: String
-    let category: CategoryModel
-    let startDate: String
-    let endDate: String
+public struct ToDoModel: Hashable {
+    public let todoId: String
+    public let title: String
+    public let description: String
+    public var status: StatusModel
+    public let tags: [String]
+    public let icon: String
+    public let category: CategoryModel
+    public let startDate: String
+    public let endDate: String
     
-    enum StatusModel: String, Hashable, Comparable {
-        static func < (lhs: ToDoModel.StatusModel, rhs: ToDoModel.StatusModel) -> Bool {
+    public enum StatusModel: String, Hashable, Comparable {
+        public static func < (lhs: ToDoModel.StatusModel, rhs: ToDoModel.StatusModel) -> Bool {
             lhs.rawValue < rhs.rawValue
         }
         
@@ -29,7 +29,7 @@ struct ToDoModel: Hashable {
     }
 }
 
-extension ToDoModel {
+public extension ToDoModel {
     static var dummy: ToDoModel {
         return ToDoModel(
             todoId: "12312312",

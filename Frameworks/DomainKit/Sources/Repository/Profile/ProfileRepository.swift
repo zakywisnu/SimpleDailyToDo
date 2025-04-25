@@ -79,7 +79,6 @@ struct StandardProfileRepository: ProfileRepository {
     
     func logout() async throws -> Bool {
         let response = try await remoteDataSource.post(ToDoEndpoint.logout, queries: nil, headers: nil, body: DefaultEmptyRequestBody(), for: DefaultEmptyResponse.self)
-        print("responsesss : ",response)
         try UserDefaultsDataSource.current.delete(forKey: "accessToken")
         return true
     }
