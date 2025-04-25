@@ -6,13 +6,13 @@ func targets() -> [Target] {
     target += Target.create(
         name: "ToDoSwiftUI",
         product: .framework,
-        destination: [.iPhone, .mac],
+        destination: [.iPhone],
         dependencies: [
             .project(target: "DomainKit", path: "../DomainKit", status: .required, condition: nil),
         ],
         resources: ["Resources/**"],
-        deploymentTargets: .multiplatform(iOS: "18.0", macOS: "13.6"),
-        withUnitTest: true
+        deploymentTargets: .iOS("18.0"),
+        withUnitTest: false
     )
     return target
 }

@@ -24,7 +24,7 @@ func targets() -> [Target] {
     target += Target.create(
         name: "SimpleDailyToDo",
         product: .app,
-        destination: .iOS,
+        destination: [.iPhone],
         dependencies: [
             .project(target: "ToDoSwiftUI", path: "../Frameworks/ToDoSwiftUI/", status: .required, condition: nil),
             .project(target: "CoreKit", path: "../Frameworks/CoreKit/", status: .required, condition: nil),

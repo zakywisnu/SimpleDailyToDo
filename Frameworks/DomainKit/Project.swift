@@ -6,12 +6,12 @@ func targets() -> [Target] {
     target += Target.create(
         name: "DomainKit",
         product: .framework,
-        destination: [.iPhone, .mac],
+        destination: [.iPhone],
         dependencies: [
             .project(target: "CoreKit", path: "../CoreKit", status: .required, condition: nil),
         ],
-        deploymentTargets: .multiplatform(iOS: "18.0", macOS: "13.6"),
-        withUnitTest: true
+        deploymentTargets: .iOS("18.0"),
+        withUnitTest: false
     )
     return target
 }
