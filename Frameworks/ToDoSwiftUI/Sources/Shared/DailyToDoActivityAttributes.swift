@@ -6,7 +6,6 @@
 //
 
 import ActivityKit
-
 import SwiftUI
 
 public struct DailyToDoActivityAttributes: ActivityAttributes {

@@ -66,7 +66,7 @@ struct UserProfileView: View {
                 .padding(16)
                 .background(
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.primaryColor.gradient)
+                        .fill(Color.blueCardBackground.gradient)
                 )
             }
             .offset(y: -50)
